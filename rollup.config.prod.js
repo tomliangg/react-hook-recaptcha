@@ -9,13 +9,8 @@ export default {
   input: "src/useRecaptcha.js",
   output: [
     {
-      file: pkg.module,
-      format: "es",
-      sourcemap: true,
-    },
-    {
       file: pkg.main,
-      format: "cjs",
+      format: "iife",
       sourcemap: true,
     },
   ],

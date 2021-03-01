@@ -1,9 +1,8 @@
 {
   "name": "react-hook-recaptcha",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "React hook for google-recaptcha v2",
-  "main": "dist/index.common.js",
-  "module": "dist/index.module.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "jest",
     "dev": "rollup -c rollup.config.dev.js -w",

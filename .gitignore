@@ -14,3 +14,4 @@ yarn-error.log*
 
 # build
 /dist
+/dist_dev

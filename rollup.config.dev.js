@@ -8,7 +8,7 @@ import replace from '@rollup/plugin-replace';
 export default {
   input: "src/localDev/index.jsx",
   output: {
-    file: "dist/bundle.js",
+    file: "dist_dev/bundle.js",
     format: "iife",
     sourcemap: true,
   },
@@ -31,6 +31,6 @@ export default {
       host: "localhost",
       port: 3000,
     }),
-    livereload({ watch: "dist" }),
+    livereload({ watch: "dist_dev" }),
   ]
 };
