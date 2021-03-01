@@ -1,0 +1,52 @@
+{
+  "name": "react-hook-recaptcha",
+  "version": "0.0.1",
+  "description": "React hook for google-recaptcha v2",
+  "main": "dist/index.common.js",
+  "module": "dist/index.module.js",
+  "scripts": {
+    "test": "jest",
+    "dev": "rollup -c rollup.config.dev.js -w",
+    "build": "rollup -c rollup.config.prod.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomliangg/react-hook-recaptcha.git"
+  },
+  "keywords": [
+    "react",
+    "hook",
+    "recaptcha"
+  ],
+  "author": "Tom Liang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tomliangg/react-hook-recaptcha/issues"
+  },
+  "homepage": "https://github.com/tomliangg/react-hook-recaptcha#readme",
+  "dependencies": {
+    "react": "17.0.1",
+    "react-dom": "17.0.1"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "7.13.8",
+    "@babel/preset-react": "7.12.13",
+    "@rollup/plugin-babel": "5.3.0",
+    "@rollup/plugin-commonjs": "17.1.0",
+    "@rollup/plugin-node-resolve": "11.2.0",
+    "@rollup/plugin-replace": "2.4.1",
+    "@testing-library/react": "11.2.5",
+    "@testing-library/user-event": "12.7.3",
+    "babel-jest": "26.6.3",
+    "jest": "26.6.3",
+    "react-test-renderer": "17.0.1",
+    "rollup": "2.40.0",
+    "rollup-plugin-livereload": "2.0.0",
+    "rollup-plugin-peer-deps-external": "2.2.4",
+    "rollup-plugin-serve": "1.1.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.12.0",
+    "react-dom": ">=16.12.0"
+  }
+}
