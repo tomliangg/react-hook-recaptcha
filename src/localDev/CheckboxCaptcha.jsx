@@ -11,7 +11,7 @@ export default function CheckboxCaptcha() {
   };
   const expiredCallback = () => setCaptchaResponse(null);
 
-  const { recaptchaLoaded } = useRecaptcha({
+  useRecaptcha({
     containerId,
     successCallback,
     expiredCallback,
@@ -30,7 +30,7 @@ export default function CheckboxCaptcha() {
       <h3>Enter a name and hit submit</h3>
       <label htmlFor="name">name:</label>
       <input type="text" id="name" name="name" style={{ marginRight: '10px' }} />
-      <button disabled={!recaptchaLoaded || !captchaResponse} type="submit">
+      <button disabled={!captchaResponse} type="submit">
         Submit
       </button>
       <p>This form is protected by Invisible Recaptcha</p>
