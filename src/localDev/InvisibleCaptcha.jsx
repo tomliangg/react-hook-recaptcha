@@ -1,20 +1,20 @@
 import React from 'react';
 import { useRecaptcha } from '../useRecaptcha';
 
-const containerId = 'test-recaptcha';
 const sitekey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+const containerId = 'test-recaptcha';
 
-export default function InvisibleCaptcha(){
-  const successCallback = response => {
+export default function InvisibleCaptcha() {
+  const successCallback = (response) => {
     const inputNameValue = document.querySelector('#name').value;
-    alert('Hello ' + inputNameValue + '\n' + 'Recaptcha Response is: ' + response);
+    alert(`Hello ${inputNameValue} \n Recaptcha Response is: ${response}`);
   };
 
   const { recaptchaLoaded, recaptchaWidget } = useRecaptcha({
     containerId,
     successCallback,
-    size: 'invisible',
     sitekey,
+    size: 'invisible',
   });
 
   const executeCaptcha = (e) => {
@@ -30,9 +30,11 @@ export default function InvisibleCaptcha(){
       <h3>Enter a name and hit submit</h3>
       <label htmlFor="name">name:</label>
       <input type="text" id="name" name="name" style={{ marginRight: '10px' }} />
-      <button disabled={!recaptchaLoaded} type="submit">Submit</button>
+      <button disabled={!recaptchaLoaded} type="submit">
+        Submit
+      </button>
       <p>This form is protected by Invisible Recaptcha</p>
       <div id={containerId} />
     </form>
-  )
+  );
 }

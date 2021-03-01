@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useScript } from './useScript';
 
-export const RECAPTCHA_SCRIPT_SRC_URL =
-  'https://www.google.com/recaptcha/api.js?render=explicit';
+export const RECAPTCHA_SCRIPT_SRC_URL = 'https://www.google.com/recaptcha/api.js?render=explicit';
 
 let timer;
 
@@ -27,14 +26,12 @@ export function useRecaptcha({
   successCallback,
   expiredCallback,
   errorCallback,
-  }) {
+}) {
   // https://stackoverflow.com/questions/45240833/what-are-the-benefits-of-explicitly-rendering-recaptcha-widget-as-opposed-to-aut
   // explicit rendering is needed because the view template of applicatio may not be loaded yet when recaptcha is loaded
   useScript(RECAPTCHA_SCRIPT_SRC_URL);
 
-  const [recaptchaLoaded, setRecaptchaLoaded] = useState(
-    window?.grecaptcha?.render ? true : false,
-  );
+  const [recaptchaLoaded, setRecaptchaLoaded] = useState(window?.grecaptcha?.render ? true : false);
   const [recaptchaWidget, setRecaptchaWidget] = useState(null);
 
   useEffect(() => {

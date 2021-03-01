@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "dev": "rollup -c rollup.config.dev.js -w",
-    "build": "rollup -c rollup.config.prod.js"
+    "build": "rollup -c rollup.config.prod.js",
+    "pretty": "prettier 'src/**/*.{js,jsx,json,css,scss}' --write"
   },
   "repository": {
     "type": "git",
@@ -15,7 +16,8 @@
   "keywords": [
     "react",
     "hook",
-    "recaptcha"
+    "recaptcha",
+    "recaptcha v2"
   ],
   "author": "Tom Liang",
   "license": "MIT",
@@ -38,6 +40,7 @@
     "@testing-library/user-event": "12.7.3",
     "babel-jest": "26.6.3",
     "jest": "26.6.3",
+    "prettier": "2.2.1",
     "react-test-renderer": "17.0.1",
     "rollup": "2.40.0",
     "rollup-plugin-livereload": "2.0.0",
