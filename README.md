@@ -47,8 +47,8 @@ export default function CheckboxCaptcha() {
     containerId,
     successCallback,
     expiredCallback,
+    sitekey,
     size: "normal",
-    sitekey
   });
 
   const submitHandler = (e) => {
@@ -81,8 +81,10 @@ export default function CheckboxCaptcha() {
 
 Codesandbox demo: https://codesandbox.io/s/userecaptcha-example-checkbox-ogppw?file=/src/App.js
 
-### Example 2 - Invisible reCAPTCHA
-![checkbox recaptcha demo](https://github.com/tomliangg/react-hook-recaptcha/blob/main/demo/invisible_recaptcha.gif)
+### Example 2 - Invisible reCAPTCHA - Programmatically invoke the challenge
+![invisible recaptcha demo](https://github.com/tomliangg/react-hook-recaptcha/blob/main/demo/invisible_recaptcha.gif)
+
+It's more versatile to programmatically invoke the challenge. This way, you can control the flow of resetting and excuting recaptcha. This example works well with form that requires validation. Whenever a form fails the validation, you can reset the recaptcha and get a new response in the new submit.
 ```jsx
 import React from "react";
 import { useRecaptcha } from "react-hook-recaptcha";
@@ -131,3 +133,122 @@ export default function InvisibleCaptcha() {
 }
 ```
 Codesandbox demo: https://codesandbox.io/s/userecaptcha-example-invisible-tr32u?file=/src/App.js
+
+
+### Example 3 - Invisible reCAPTCHA - Automatically bind the challenge to a button
+
+It's very much like Example 2 but a bit simpler. The downside of automatically binding the challenge is that it doesn't work well if the form requires validation because this approach will have a problem resubmitting.
+```jsx
+import React from "react";
+import { useRecaptcha } from "react-hook-recaptcha";
+
+const sitekey = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"; // change to your site key
+const containerId = "test-recaptcha"; // this id can be customized
+
+export default function InvisibleCaptcha() {
+  const successCallback = (response) => {
+    const inputNameValue = document.querySelector("#name").value;
+    alert(`Hello ${inputNameValue} \n Recaptcha Response is: ${response}`);
+  };
+
+  const { recaptchaLoaded } = useRecaptcha({
+    containerId,
+    successCallback,
+    sitekey,
+    size: "invisible"
+  });
+
+  return (
+    <form>
+      <h3>Enter a name and hit submit</h3>
+      <label htmlFor="name">name:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        style={{ marginBottom: "20px" }}
+      />
+      <button disabled={!recaptchaLoaded} type="submit" id={containerId}>
+        Submit
+      </button>
+      <p>This form is protected by Invisible Recaptcha</p>
+    </form>
+  );
+}
+```
+Codesandbox demo: https://codesandbox.io/s/userecaptcha-example-bind-challenge-to-a-button-jxyjf?file=/src/App.js
+
+
+### Example 4 - useRecaptcha hook with a form library
+![using with react-hook-form demo](https://github.com/tomliangg/react-hook-recaptcha/blob/main/demo/use_with_form_lib.gif)
+
+useRecaptcha hook can work with any form libraries. Using react-hook-form for an example:
+```jsx
+import React from "react";
+import { useRecaptcha } from "react-hook-recaptcha";
+import { useForm } from "react-hook-form";
+
+const sitekey = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"; // change to your site key
+const containerId = "test-recaptcha"; // this id can be customized
+
+export default function Form() {
+  const { register, handleSubmit, errors } = useForm();
+  const onSubmit = (data) => {
+    let outputMsg = "";
+    Object.keys(data).forEach((key) => {
+      outputMsg += `${key}: ${data[key]} \n`;
+    });
+    alert(outputMsg);
+  };
+
+  const successCallback = (response) =>
+    handleSubmit((data) => onSubmit({ ...data, catchaResponse: response }))();
+
+  const { recaptchaLoaded, recaptchaWidget } = useRecaptcha({
+    containerId,
+    successCallback,
+    sitekey,
+    size: "invisible"
+  });
+
+  const executeCaptcha = (e) => {
+    e.preventDefault();
+    if (recaptchaWidget !== null) {
+      window.grecaptcha.reset(recaptchaWidget);
+      window.grecaptcha.execute(recaptchaWidget);
+    }
+  };
+
+  return (
+    <form onSubmit={executeCaptcha}>
+      <input
+        type="text"
+        placeholder="Name"
+        name="Name"
+        ref={register({
+          required: true,
+          maxLength: 80
+        })}
+      />
+      {errors.Name && <p>This field is required</p>}
+      <input
+        type="text"
+        placeholder="Email"
+        name="Email"
+        ref={register({
+          required: "This field is required",
+          pattern: {
+            value: /^\S+@\S+$/i,
+            message: "invalid email format"
+          }
+        })}
+      />
+      {errors.Email && <p>{errors.Email.message}</p>}
+
+      <input type="submit" disabled={!recaptchaLoaded} />
+      <div id={containerId} />
+    </form>
+  );
+}
+```
+Codesandbox demo: https://codesandbox.io/s/userecaptcha-example-using-with-react-hook-form-wyk4g?file=/src/App.js

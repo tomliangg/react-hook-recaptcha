@@ -1,6 +1,6 @@
 {
   "name": "react-hook-recaptcha",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React hook for google-recaptcha v2",
   "main": "dist/index.js",
   "scripts": {
