@@ -2,6 +2,8 @@
 
 > React hook for [google-recaptcha v2](https://developers.google.com/recaptcha/docs/display)
 
+A tiny hook with less than 1KB bundle size (after minified + gzipped) as per https://bundlephobia.com/result?p=react-hook-recaptcha
+
 ## Install
 
 ```sh
