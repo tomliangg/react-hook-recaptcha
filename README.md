@@ -31,6 +31,9 @@ yarn add react-hook-recaptcha
 
 ### Example 1 - Checkbox/display reCAPTCHA
 ![checkbox recaptcha demo](https://github.com/tomliangg/react-hook-recaptcha/blob/main/demo/checkbox_recaptcha.gif)
+
+Codesandbox demo: https://codesandbox.io/s/userecaptcha-example-checkbox-ogppw?file=/src/App.js
+
 ```jsx
 import React, { useState } from "react";
 import { useRecaptcha } from "react-hook-recaptcha";
@@ -81,12 +84,13 @@ export default function CheckboxCaptcha() {
 }
 ```
 
-Codesandbox demo: https://codesandbox.io/s/userecaptcha-example-checkbox-ogppw?file=/src/App.js
 
 ### Example 2 - Invisible reCAPTCHA - Programmatically invoke the challenge
 ![invisible recaptcha demo](https://github.com/tomliangg/react-hook-recaptcha/blob/main/demo/invisible_recaptcha.gif)
 
-It's more versatile to programmatically invoke the challenge. This way, you can control the flow of resetting and excuting recaptcha. This example works well with form that requires validation. Whenever a form fails the validation, you can reset the recaptcha and get a new response in the new submit.
+Codesandbox demo: https://codesandbox.io/s/userecaptcha-example-invisible-tr32u?file=/src/App.js
+
+It's more versatile to programmatically invoke the challenge. This way, you can control the flow of resetting and executing recaptcha. This example works well with form that requires validation. Whenever a form fails the validation, you can reset the recaptcha and get a new response in the new submit.
 ```jsx
 import React from "react";
 import { useRecaptcha } from "react-hook-recaptcha";
@@ -134,10 +138,11 @@ export default function InvisibleCaptcha() {
   );
 }
 ```
-Codesandbox demo: https://codesandbox.io/s/userecaptcha-example-invisible-tr32u?file=/src/App.js
 
 
 ### Example 3 - Invisible reCAPTCHA - Automatically bind the challenge to a button
+
+Codesandbox demo: https://codesandbox.io/s/userecaptcha-example-bind-challenge-to-a-button-jxyjf?file=/src/App.js
 
 It's very much like Example 2 but a bit simpler. The downside of automatically binding the challenge is that it doesn't work well if the form requires validation because this approach will have a problem resubmitting.
 ```jsx
@@ -178,11 +183,12 @@ export default function InvisibleCaptcha() {
   );
 }
 ```
-Codesandbox demo: https://codesandbox.io/s/userecaptcha-example-bind-challenge-to-a-button-jxyjf?file=/src/App.js
 
 
 ### Example 4 - useRecaptcha hook with a form library
 ![using with react-hook-form demo](https://github.com/tomliangg/react-hook-recaptcha/blob/main/demo/use_with_form_lib.gif)
+
+Codesandbox demo: https://codesandbox.io/s/userecaptcha-example-using-with-react-hook-form-wyk4g?file=/src/App.js
 
 useRecaptcha hook can work with any form libraries. Using react-hook-form for an example:
 ```jsx
@@ -253,4 +259,3 @@ export default function Form() {
   );
 }
 ```
-Codesandbox demo: https://codesandbox.io/s/userecaptcha-example-using-with-react-hook-form-wyk4g?file=/src/App.js
