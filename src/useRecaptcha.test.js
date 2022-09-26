@@ -23,7 +23,7 @@ function createReCaptchaMock() {
 
 window.grecaptcha = createReCaptchaMock();
 
-const TestVisibleRecaptcha = () => {
+const TestInvisibleRecaptcha = () => {
   const { recaptchaLoaded, recaptchaWidget } = useRecaptcha({
     containerId,
     successCallback,
@@ -50,6 +50,31 @@ const TestVisibleRecaptcha = () => {
   );
 };
 
+const TestInvisibleRecaptchaResultMethods = () => {
+  const { recaptchaLoaded, execute, reset } = useRecaptcha({
+    containerId,
+    successCallback,
+    size: 'invisible',
+    sitekey,
+  });
+
+  const executeCaptcha = (e) => {
+    e.preventDefault();
+    reset();
+    execute();
+  };
+
+  return (
+    <form onSubmit={executeCaptcha}>
+      <span>invisible Recaptcha testing form</span>
+      <button disabled={!recaptchaLoaded} type="submit">
+        Submit form
+      </button>
+      <div id={containerId} />
+    </form>
+  );
+};
+
 describe('useRecaptcha hook - invisible recaptcha', () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -57,7 +82,7 @@ describe('useRecaptcha hook - invisible recaptcha', () => {
 
   it('should append a script tag with recaptcha source', () => {
     expect(document.querySelectorAll('script').length).toBe(0);
-    render(<TestVisibleRecaptcha />);
+    render(<TestInvisibleRecaptcha />);
 
     const script = document.querySelector('script');
     expect(script).not.toBeNull();
@@ -65,12 +90,24 @@ describe('useRecaptcha hook - invisible recaptcha', () => {
   });
 
   it('should execute successCallback when submits a successful response', () => {
-    render(<TestVisibleRecaptcha />);
+    render(<TestInvisibleRecaptcha />);
     expect(window.grecaptcha.execute).not.toBeCalled();
     expect(successCallback).not.toBeCalled();
 
     userEvent.click(screen.getByRole('button'));
     expect(window.grecaptcha.execute).toHaveBeenCalledTimes(1);
+    expect(successCallback).toHaveBeenCalledTimes(1);
+  });
+
+  it('execute method should fallback to window.grecaptcha execute method', () => {
+    render(<TestInvisibleRecaptchaResultMethods />);
+    expect(window.grecaptcha.execute).not.toBeCalled();
+    expect(window.grecaptcha.reset).not.toBeCalled();
+    expect(successCallback).not.toBeCalled();
+
+    userEvent.click(screen.getByRole('button'));
+    expect(window.grecaptcha.execute).toHaveBeenCalledTimes(1);
+    expect(window.grecaptcha.reset).toHaveBeenCalledTimes(1);
     expect(successCallback).toHaveBeenCalledTimes(1);
   });
 });
