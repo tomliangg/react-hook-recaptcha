@@ -19,8 +19,8 @@ export default function InvisibleCaptcha() {
 
   const executeCaptcha = (e) => {
     e.preventDefault();
-    execute();
     reset();
+    execute();
   };
 
   return (
