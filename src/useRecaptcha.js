@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useScript } from './useScript';
 
 export const RECAPTCHA_SCRIPT_SRC_URL = 'https://www.google.com/recaptcha/api.js?render=explicit';
@@ -16,7 +16,7 @@ let timer;
  * @param {Function} config.successCallback executed when the user submits a successful response and passes the challenge if it prompts up. The g-recaptcha-response token is passed to the callback.
  * @param {Function} config.expiredCallback executed when the recaptcha response expires and the user needs to re-verify.
  * @param {Function} config.errorCallback executed when recaptcha encounters an error (usually network connectivity) and cannot continue until connectivity is restored. If you specify a function here, you are responsible for informing the user that they should retry.
- * @return {Object}
+ * @returns {{ execute: Function, recaptchaLoaded: Boolean, recaptchaWidget: Object, reset: Function, }} RecaptchaHook instance
  */
 export function useRecaptcha({
   containerId,
@@ -29,7 +29,7 @@ export function useRecaptcha({
   errorCallback,
 }) {
   // https://stackoverflow.com/questions/45240833/what-are-the-benefits-of-explicitly-rendering-recaptcha-widget-as-opposed-to-aut
-  // explicit rendering is needed because the view template of applicatio may not be loaded yet when recaptcha is loaded
+  // explicit rendering is needed because the view template of application may not be loaded yet when recaptcha is loaded
   useScript(RECAPTCHA_SCRIPT_SRC_URL);
 
   const [recaptchaLoaded, setRecaptchaLoaded] = useState(window?.grecaptcha?.render ? true : false);
@@ -63,8 +63,22 @@ export function useRecaptcha({
     }
   }, [recaptchaLoaded, successCallback, recaptchaWidget, containerId]);
 
+  const execute = useCallback(() => {
+    if (recaptchaWidget) {
+      window.grecaptcha.execute(recaptchaWidget);
+    }
+  }, [recaptchaWidget]);
+
+  const reset = useCallback(() => {
+    if (recaptchaWidget) {
+      window.grecaptcha.reset(recaptchaWidget);
+    }
+  }, [recaptchaWidget]);
+
   return {
+    execute,
     recaptchaLoaded,
     recaptchaWidget,
+    reset,
   };
 }

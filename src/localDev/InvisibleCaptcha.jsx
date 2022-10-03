@@ -10,7 +10,7 @@ export default function InvisibleCaptcha() {
     alert(`Hello ${inputNameValue} \n Recaptcha Response is: ${response}`);
   };
 
-  const { recaptchaLoaded, recaptchaWidget } = useRecaptcha({
+  const { recaptchaLoaded, execute, reset } = useRecaptcha({
     containerId,
     successCallback,
     sitekey,
@@ -19,10 +19,8 @@ export default function InvisibleCaptcha() {
 
   const executeCaptcha = (e) => {
     e.preventDefault();
-    if (recaptchaWidget !== null) {
-      window.grecaptcha.reset(recaptchaWidget);
-      window.grecaptcha.execute(recaptchaWidget);
-    }
+    reset();
+    execute();
   };
 
   return (
