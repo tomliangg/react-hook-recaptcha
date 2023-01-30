@@ -1,23 +1,26 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+/**
+ * @vitest-environment jsdom
+ */
+import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { useRecaptcha, RECAPTCHA_SCRIPT_SRC_URL } from './useRecaptcha';
 
-const successCallback = jest.fn();
+const successCallback = vi.fn();
 const sitekey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
 
 const containerId = 'test-recaptcha-widget-id';
 function createReCaptchaMock() {
   return {
-    render: jest.fn(function (ele, options) {
+    render: vi.fn(function (ele, options) {
       this._verify = options.callback;
       this._expire = options['expired-callback'];
       return containerId;
     }),
-    execute: jest.fn(function () {
+    execute: vi.fn(function () {
       this._verify();
     }),
-    reset: jest.fn(),
+    reset: vi.fn(),
   };
 }
 
@@ -77,7 +80,8 @@ const TestInvisibleRecaptchaResultMethods = () => {
 
 describe('useRecaptcha hook - invisible recaptcha', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    cleanup();
+    vi.clearAllMocks();
   });
 
   it('should append a script tag with recaptcha source', () => {
@@ -89,23 +93,23 @@ describe('useRecaptcha hook - invisible recaptcha', () => {
     expect(script.src).toBe(RECAPTCHA_SCRIPT_SRC_URL);
   });
 
-  it('should execute successCallback when submits a successful response', () => {
+  it('should execute successCallback when submits a successful response', async () => {
     render(<TestInvisibleRecaptcha />);
     expect(window.grecaptcha.execute).not.toBeCalled();
     expect(successCallback).not.toBeCalled();
 
-    userEvent.click(screen.getByRole('button'));
+    await userEvent.click(screen.getByRole('button'));
     expect(window.grecaptcha.execute).toHaveBeenCalledTimes(1);
     expect(successCallback).toHaveBeenCalledTimes(1);
   });
 
-  it('execute method should fallback to window.grecaptcha execute method', () => {
+  it('execute method should fallback to window.grecaptcha execute method', async () => {
     render(<TestInvisibleRecaptchaResultMethods />);
     expect(window.grecaptcha.execute).not.toBeCalled();
     expect(window.grecaptcha.reset).not.toBeCalled();
     expect(successCallback).not.toBeCalled();
 
-    userEvent.click(screen.getByRole('button'));
+    await userEvent.click(screen.getByRole('button'));
     expect(window.grecaptcha.execute).toHaveBeenCalledTimes(1);
     expect(window.grecaptcha.reset).toHaveBeenCalledTimes(1);
     expect(successCallback).toHaveBeenCalledTimes(1);
