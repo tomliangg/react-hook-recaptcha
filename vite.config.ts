@@ -9,6 +9,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/useRecaptcha.ts'),
       name: 'react-hook-recaptcha',
+      fileName: 'useRecaptcha',
     },
     rollupOptions: {
       external: ['react', 'react-dom'],

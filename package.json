@@ -1,12 +1,15 @@
 {
   "name": "react-hook-recaptcha",
-  "version": "1.0.5",
+  "version": "2.0.0",
   "description": "React hook for google-recaptcha v2",
   "type": "module",
+  "main": "./dist/useRecaptcha.umd.cjs",
+  "module": "./dist/useRecaptcha.js",
+  "types": "./dist/useRecaptcha.d.ts",
   "scripts": {
     "test": "vitest",
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && tsc --build tsconfig.prod.json",
     "pretty": "prettier 'src/**/*.{js,jsx,json,css,scss}' --write"
   },
   "repository": {
