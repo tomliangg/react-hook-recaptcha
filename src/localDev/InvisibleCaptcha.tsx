@@ -1,12 +1,12 @@
-import React from 'react';
+import { FormEvent } from 'react';
 import { useRecaptcha } from '../useRecaptcha';
 
-const sitekey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
 const containerId = 'test-recaptcha';
+const sitekey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
 
 export default function InvisibleCaptcha() {
-  const successCallback = (response) => {
-    const inputNameValue = document.querySelector('#name').value;
+  const successCallback = (response: string) => {
+    const inputNameValue = (document.querySelector('#name') as HTMLInputElement).value;
     alert(`Hello ${inputNameValue} \n Recaptcha Response is: ${response}`);
   };
 
@@ -17,7 +17,7 @@ export default function InvisibleCaptcha() {
     size: 'invisible',
   });
 
-  const executeCaptcha = (e) => {
+  const executeCaptcha = (e: FormEvent) => {
     e.preventDefault();
     reset();
     execute();
